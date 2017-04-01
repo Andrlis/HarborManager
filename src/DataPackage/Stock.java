@@ -21,32 +21,32 @@ public class Stock {
 			this.itemCount += goods.get(i).getCount();
 		}
 	}
-	
-	public ArrayList<ProductItem> getGoods(){
+
+	public ArrayList<ProductItem> getGoods() {
 		return this.goods;
 	}
-	
-	public void setGoods(ArrayList<ProductItem> goods){
+
+	public void setGoods(ArrayList<ProductItem> goods) {
 		this.goods.addAll(goods);
 	}
-	
-	public void setGoodsItem(ProductItem item){
+
+	public void setGoodsItem(ProductItem item) {
 		this.goods.add(item);
 	}
-	
-	public int getCount(){
+
+	public int getCount() {
 		return this.itemCount;
 	}
-	
-	public void setCount(int count){
-		this.itemCount=count;
+
+	public void setCount(int count) {
+		this.itemCount = count;
 	}
-	
-	public void incCount(int inc){
-		this.itemCount+=inc;
+
+	public void incCount(int inc) {
+		this.itemCount += inc;
 	}
-	
-	public void decCount(int dec){
-		this.itemCount-=dec;
+
+	public void decCount(int dec) {
+		this.itemCount -= dec;
 	}
 }
