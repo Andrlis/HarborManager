@@ -49,4 +49,20 @@ public class Stock {
 	public void decCount(int dec) {
 		this.itemCount -= dec;
 	}
+	
+	public void incItemCount(int inc, ProductItem item){
+		for(int i = 0; i<=goods.size();i++){
+			if(goods.get(i).getName().equals(item.getName())){
+				goods.get(i).incCount(inc);
+			}
+		}
+	}
+	
+	public void decItemCount(int dec, ProductItem item){
+		for(int i = 0; i<=goods.size();i++){
+			if(goods.get(i).getName().equals(item.getName())){
+				goods.get(i).decCount(dec);
+			}
+		}
+	}
 }
