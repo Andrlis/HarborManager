@@ -2,8 +2,10 @@ package DataPackage;
 
 public class ProductItem {
 
+	private int id;
 	private String name;
 	private int count;
+	private double weight;
 
 	public ProductItem(String name, int count) {
 		this.name = name;
@@ -13,6 +15,15 @@ public class ProductItem {
 	public ProductItem() {
 		this.name = "No name";
 		this.count = 0;
+		this.weight = 0;
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -29,6 +40,14 @@ public class ProductItem {
 
 	public void setCount(int count) {
 		this.count = count;
+	}
+
+	public double getWeight() {
+		return this.weight;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
 	}
 
 	public void incCount(int inc) {

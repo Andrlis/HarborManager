@@ -6,12 +6,14 @@ public class Ship {
 
 	private String name;
 	private String country;
+	private double maxWeight;
 	private ArrayList<ProductItem> goods = new ArrayList<ProductItem>();
 
-	public Ship(String name, String country, ArrayList<ProductItem> goods) {
+	public Ship(String name, String country, ArrayList<ProductItem> goods, double weight) {
 		this.name = name;
 		this.country = country;
 		this.goods.addAll(goods);
+		this.maxWeight = weight;
 	}
 
 	public Ship() {
@@ -34,6 +36,14 @@ public class Ship {
 
 	public void setCountry(String country) {
 		this.country = country;
+	}
+
+	public double getMaxWeight() {
+		return this.maxWeight;
+	}
+
+	public void setMaxWeight(double weight) {
+		this.maxWeight = weight;
 	}
 
 	public void setGoods(ArrayList<ProductItem> goods) {
