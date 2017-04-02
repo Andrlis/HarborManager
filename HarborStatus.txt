@@ -1,0 +1,12 @@
+23:12:26 Harbor. Items` count: 1080; Ships in queue: 0;
+
+23:12:31 Harbor. Items` count: 1080; Ships in queue: 0;
+
+23:12:36 Harbor. Items` count: 1080; Ships in queue: 0;
+
+23:12:41 Harbor. Items` count: 1080; Ships in queue: 0;
+
+23:12:46 Harbor. Items` count: 1080; Ships in queue: 0;
+
+23:12:51 Harbor. Items` count: 1080; Ships in queue: 0;
+

@@ -1,6 +1,9 @@
 package DataPackage;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Harbor {
 
@@ -66,7 +69,7 @@ public class Harbor {
 		this.stock.incItemCount(inc, item);
 	}
 	
-	public void decitemCount(int dec, ProductItem item){
+	public void decItemCount(int dec, ProductItem item){
 		this.stock.decItemCount(dec, item);
 	}
 	
@@ -78,5 +81,11 @@ public class Harbor {
 		Ship ship = this.shipQueue.get(0);
 		this.shipQueue.remove(0);
 		return ship;
+	}
+	
+	public String toString(){
+		Date now = new Date();
+		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+		return formatter.format(now)+" Harbor. Items` count: "+this.stock.getCount()+"; Ships in queue: "+this.shipQueue.size()+";\n";
 	}
 }

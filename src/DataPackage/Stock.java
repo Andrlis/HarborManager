@@ -18,8 +18,7 @@ public class Stock {
 	public Stock(ArrayList<ProductItem> goods) {
 		this.goods.addAll(goods);
 		for (int i = 0; i <= goods.size(); i++) {
-			this.itemCount += goods.get(i).getCount();
-		}
+			this.itemCount += goods.get(i).getCount();}
 	}
 
 	public ArrayList<ProductItem> getGoods() {
@@ -27,6 +26,8 @@ public class Stock {
 	}
 
 	public void setGoods(ArrayList<ProductItem> goods) {
+		for (int i = 0; i < goods.size(); i++) {
+			this.itemCount += goods.get(i).getCount();}
 		this.goods.addAll(goods);
 	}
 
