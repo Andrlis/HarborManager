@@ -34,17 +34,27 @@ public class MainWindow extends JFrame {
 		JPanel pierPanel = new JPanel();
 		pierPanel.setLayout(new BoxLayout(pierPanel, BoxLayout.Y_AXIS));
 
-		JTabbedPane tabPane = new JTabbedPane();
-		JPanel tab1 = makePanel();
-		JPanel tab2 = makePanel();
-		JPanel tab3 = makePanel();
-		JPanel tab4 = makePanel();
-		JPanel tab5 = makePanel();
-		tabPane.addTab("Pier1", tab1);
-		tabPane.addTab("Pier1", tab2);
-		tabPane.addTab("Pier1", tab3);
-		tabPane.addTab("Pier1", tab4);
-		tabPane.addTab("Pier1", tab5);
+		JTabbedPane tabPane = new JTabbedPane();;
+		
+		PierPanel pier1Panel = new PierPanel(harbor.getPier(0));
+		JScrollPane scroll_1 = new JScrollPane(pier1Panel);
+		scroll_1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		tabPane.addTab("Pier1",scroll_1);
+		
+		PierPanel pier2Panel = new PierPanel(harbor.getPier(1));
+		JScrollPane scroll_2 = new JScrollPane(pier2Panel);
+		scroll_2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		tabPane.addTab("Pier2",scroll_2);
+
+		PierPanel pier3Panel = new PierPanel(harbor.getPier(2));
+		JScrollPane scroll_3 = new JScrollPane(pier3Panel);
+		scroll_3.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		tabPane.addTab("Pier3",scroll_3);
+		
+		PierPanel pier4Panel = new PierPanel(harbor.getPier(3));
+		JScrollPane scroll_4 = new JScrollPane(pier4Panel);
+		scroll_4.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		tabPane.addTab("Pier4",scroll_4);
 		
 		pierPanel.add(new JLabel("Choose a pier:"));
 		pierPanel.add(tabPane);
@@ -82,12 +92,6 @@ public class MainWindow extends JFrame {
 		contentPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 		
 		setContentPane(contentPanel);
-	}
-
-	private static JPanel makePanel() {
-		JPanel p = new JPanel();
-		
-		return p;
 	}
 
 }

@@ -13,34 +13,21 @@ public class Harbor {
 
 	public Harbor(int numPiers) {
 		piers = new Pier[numPiers];
+		for (int i= 0; i<numPiers;i++){
+			piers[i]= new Pier(this);
+		}
 		stock = new Stock();
 		shipQueue = new ArrayList<Ship>();
 	}
 
-	public String getPierStatus(int number) {
-		return this.piers[number].getStatus();
+	public Pier getPier(int number){
+		return this.piers[number];
 	}
-
-	public void setPierStatus(int number, String status) {
-		this.piers[number].setStatus(status);
+	
+	public ArrayList<Ship> getShipQueue(){
+		return shipQueue;
 	}
-
-	public boolean getPierAvailable(int number) {
-		return this.piers[number].getAvailable();
-	}
-
-	public void setPierAvailable(int number, boolean available) {
-		this.piers[number].setAvailable(available);
-	}
-
-	public Ship getShipFromPier(int number) {
-		return this.piers[number].getShip();
-	}
-
-	public void setShipToPier(int number, Ship ship) {
-		this.piers[number].setShip(ship);
-	}
-
+	
 	public ArrayList<ProductItem> getStock() {
 		return this.stock.getGoods();
 	}
@@ -56,36 +43,18 @@ public class Harbor {
 	public int getStockItemsCount() {
 		return this.stock.getCount();
 	}
-
-	public void incStockItem(int inc){
-		this.stock.incCount(inc);
-	}
-	
-	public void decStockItem(int dec){
-		this.stock.decCount(dec);
-	}
-	
-	public void incItemCount(int inc, ProductItem item){
-		this.stock.incItemCount(inc, item);
-	}
-	
-	public void decItemCount(int dec, ProductItem item){
-		this.stock.decItemCount(dec, item);
-	}
-	
+		
 	public void setShipToQueue(Ship ship){
 		this.shipQueue.add(ship);
 	}
 	
-	public Ship getShipFromQueue(){
-		Ship ship = this.shipQueue.get(0);
-		this.shipQueue.remove(0);
-		return ship;
-	}
-	
 	public String toString(){
+		String harborStatus;
 		Date now = new Date();
 		DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-		return formatter.format(now)+" Harbor. Items` count: "+this.stock.getCount()+"; Ships in queue: "+this.shipQueue.size()+";\n";
+		harborStatus = formatter.format(now)+" Harbor. Items` count: "+this.stock.getCount()+"; Ships in queue: "+this.shipQueue.size()+";";
+		for(int i = 0; i<piers.length;i++)
+			harborStatus += " Pier #"+(i+1)+piers[i].toString()+";";
+		return harborStatus;
 	}
 }

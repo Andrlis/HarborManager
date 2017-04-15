@@ -50,6 +50,9 @@ public class ProductItem {
 		this.weight = weight;
 	}
 
+	/*
+	 * Увеличение/уменьшение кол-ва едениц товара.
+	 */
 	public void incCount(int inc) {
 		this.count += inc;
 	}
@@ -58,6 +61,11 @@ public class ProductItem {
 		this.count -= dec;
 	}
 
+	/*
+	 * Вывод информации о еденице товара в строку.
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return this.name + "; " + this.count + " items.";
 	}

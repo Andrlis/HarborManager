@@ -19,7 +19,7 @@ public class Main {
 		
 		StockDAO stockDAO = new StockDAO();
 		stockDAO.getConnection();
-		Harbor harbor = new Harbor(5);
+		Harbor harbor = new Harbor(4);
 		harbor.setStock(stockDAO.select());
 		
 		statusTh = new StatusThread(harbor);

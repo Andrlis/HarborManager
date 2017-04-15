@@ -8,17 +8,13 @@ import java.util.ArrayList;
 public class Stock {
 
 	private ArrayList<ProductItem> goods = new ArrayList<ProductItem>();
-	private int itemCount;
 
 	public Stock() {
-		this.itemCount = 0;
 		this.goods.clear();
 	}
 
 	public Stock(ArrayList<ProductItem> goods) {
 		this.goods.addAll(goods);
-		for (int i = 0; i <= goods.size(); i++) {
-			this.itemCount += goods.get(i).getCount();}
 	}
 
 	public ArrayList<ProductItem> getGoods() {
@@ -26,8 +22,6 @@ public class Stock {
 	}
 
 	public void setGoods(ArrayList<ProductItem> goods) {
-		for (int i = 0; i < goods.size(); i++) {
-			this.itemCount += goods.get(i).getCount();}
 		this.goods.addAll(goods);
 	}
 
@@ -36,21 +30,15 @@ public class Stock {
 	}
 
 	public int getCount() {
-		return this.itemCount;
+		return this.goods.size();
 	}
 
-	public void setCount(int count) {
-		this.itemCount = count;
-	}
-
-	public void incCount(int inc) {
-		this.itemCount += inc;
-	}
-
-	public void decCount(int dec) {
-		this.itemCount -= dec;
-	}
 	
+	/**
+	 * Увеличение кол-ва товара на складе
+	 * @param inc
+	 * @param item
+	 */
 	public void incItemCount(int inc, ProductItem item){
 		for(int i = 0; i<=goods.size();i++){
 			if(goods.get(i).getName().equals(item.getName())){
@@ -59,6 +47,11 @@ public class Stock {
 		}
 	}
 	
+	/**
+	 * Уменьшение кол-ва товара на складе
+	 * @param dec
+	 * @param item
+	 */
 	public void decItemCount(int dec, ProductItem item){
 		for(int i = 0; i<=goods.size();i++){
 			if(goods.get(i).getName().equals(item.getName())){

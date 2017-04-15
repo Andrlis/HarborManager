@@ -50,12 +50,12 @@ public class Ship {
 		this.goods.addAll(goods);
 	}
 
-	public void setGoodsItem(ProductItem item) {
-		this.goods.add(item);
-	}
-
 	public ArrayList<ProductItem> getGoods() {
 		return this.goods;
+	}
+
+	public void setGoodsItem(ProductItem item) {
+		this.goods.add(item);
 	}
 
 	public String toString() {
