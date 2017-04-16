@@ -1,9 +1,11 @@
 package DataPackage;
 
-import java.util.ArrayList;
+import ui_package.PierPanel;
+
 
 public class Pier extends Thread {
 
+	PierPanel ui_panel;
 	private String status;
 	private Ship currentShip;
 	private Harbor harbor;
@@ -12,6 +14,14 @@ public class Pier extends Thread {
 		this.status = "Free";
 		this.currentShip = new Ship();
 		this.harbor = harbor;
+		this.ui_panel = new PierPanel(this);
+	}
+	
+	/**
+	 * Возвращает PierPanel
+	 */
+	public PierPanel getPanel(){
+		return this.ui_panel;
 	}
 
 	/**
@@ -37,6 +47,7 @@ public class Pier extends Thread {
 		}
 		this.currentShip = this.harbor.getShipQueue().get(0);
 		harbor.getShipQueue().remove(0);
+		this.ui_panel.updatePanel();
 	}
 
 	/**
@@ -50,11 +61,14 @@ public class Pier extends Thread {
 				if (shipItem.getName().equals(stockItem.getName())) {
 					isExist = true;
 					stockItem.incCount(shipItem.getCount());
-					// delete from ship!!!
 				}
 			}
 			if (isExist == false)
 				this.harbor.setGoodsItem(shipItem);
+			this.currentShip.getGoods().remove(shipItem);
+			
+			this.ui_panel.updateTable();
+			
 			try {
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {
@@ -81,10 +95,10 @@ public class Pier extends Thread {
 				break;
 
 			unloadShip();
-			
+
 			if (isInterrupted())
 				return;
-			
+
 			currentShip = null;
 		}
 	}

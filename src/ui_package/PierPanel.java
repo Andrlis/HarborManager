@@ -21,6 +21,7 @@ public class PierPanel extends JPanel {
 	JLabel shipCountry;
 	JLabel shipCount;
 	JLabel shipWeight;
+	AbstractTableModel tModel;
 	
 	public PierPanel(Pier pier){
 		
@@ -51,7 +52,7 @@ public class PierPanel extends JPanel {
 		shipDataPanel.add(shipWeight);
 		this.add(shipDataPanel);
 		
-		AbstractTableModel tModel = new StockTable(this.pier.getShip().getGoods());
+		tModel = new StockTable(this.pier.getShip().getGoods());
 		JTable stockTable = new JTable(tModel);
 		stockTable.setPreferredScrollableViewportSize(new Dimension(300, 200));
 		stockTable.getTableHeader().setReorderingAllowed(false);
@@ -75,12 +76,15 @@ public class PierPanel extends JPanel {
 		this.add(Box.createRigidArea(new Dimension(0, 10)));				
 	}
 	
-	public void setPier(Pier pier){
-		this.pier = pier;
+	public void updatePanel(){
 		shipName.setText(this.pier.getShip().getName());
 		shipCountry.setText(this.pier.getShip().getCountry());
 		shipCount.setText(String.valueOf(this.pier.getShip().getGoods().size()));
 		shipWeight.setText(String.valueOf(this.pier.getShip().getMaxWeight()));
+	}
+	
+	public void updateTable(){
+		tModel.fireTableDataChanged();
 	}
 	
 	public JPanel setPanel(){
