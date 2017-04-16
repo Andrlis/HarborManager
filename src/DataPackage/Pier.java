@@ -1,5 +1,7 @@
 package DataPackage;
 
+import java.util.ArrayList;
+
 public class Pier extends Thread {
 
 	private String status;
@@ -12,6 +14,9 @@ public class Pier extends Thread {
 		this.harbor = harbor;
 	}
 
+	/**
+	 * Изменение состояния порта.
+	 */
 	public void changeStatus() {
 		if (this.status.equals("Free") == true)
 			this.status = "Busy";
@@ -26,7 +31,7 @@ public class Pier extends Thread {
 	/**
 	 * Извлекает корабль из очереди.
 	 */
-	synchronized public void setShip() {
+	synchronized private void setShip() {
 		if (this.harbor.getShipQueue().isEmpty() == true) {
 			this.currentShip = null;
 		}
@@ -34,6 +39,33 @@ public class Pier extends Thread {
 		harbor.getShipQueue().remove(0);
 	}
 
+	/**
+	 * Разгрузка корабля.
+	 */
+	synchronized public void unloadShip() {
+		boolean isExist;
+		for (ProductItem shipItem : this.currentShip.getGoods()) {
+			isExist = false;
+			for (ProductItem stockItem : this.harbor.getStock()) {
+				if (shipItem.getName().equals(stockItem.getName())) {
+					isExist = true;
+					stockItem.incCount(shipItem.getCount());
+					// delete from ship!!!
+				}
+			}
+			if (isExist == false)
+				this.harbor.setGoodsItem(shipItem);
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				return;
+			}
+		}
+	}
+
+	/**
+	 * Вывод информации о порте в строку.
+	 */
 	public String toString() {
 		return this.status + " " + this.currentShip.toString();
 	}
@@ -42,14 +74,17 @@ public class Pier extends Thread {
 	public void run() {
 		while (!isInterrupted()) {
 			setShip();
-			if(this.currentShip == null) continue;
+			if (this.currentShip == null)
+				continue;
+
+			if (isInterrupted())
+				break;
+
+			unloadShip();
 			
-			if(isInterrupted()) break;
-			try{
-				sleep(1000);
-			} catch (InterruptedException e){
+			if (isInterrupted())
 				return;
-			}
+			
 			currentShip = null;
 		}
 	}

@@ -48,6 +48,9 @@ public class Harbor {
 		this.shipQueue.add(ship);
 	}
 	
+	/**
+	 * Вывод информации о состоянии порта в строуку.
+	 */
 	public String toString(){
 		String harborStatus;
 		Date now = new Date();
@@ -56,5 +59,26 @@ public class Harbor {
 		for(int i = 0; i<piers.length;i++)
 			harborStatus += " Pier #"+(i+1)+piers[i].toString()+";";
 		return harborStatus;
+	}
+	
+	/**
+	 * Запуск потоков на выполнение
+	 */
+	public void startThreads(){
+		for (Pier pier: piers)
+			pier.start();
+	}
+	
+	/**
+	 * Завершение работы потоков
+	 */
+	public void finishThreds(){
+		for(Pier thread: piers)
+			thread.interrupt();
+		for (Pier thread: piers){
+			try{
+				thread.join();
+			}catch(InterruptedException e){	}
+		}
 	}
 }

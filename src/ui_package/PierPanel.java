@@ -35,7 +35,7 @@ public class PierPanel extends JPanel {
 		shipDataPanel.setLayout(grid);
 		
 		shipDataPanel.add(new JLabel("Ship`s name:"));
-		shipName = new JLabel("svs");
+		shipName = new JLabel(pier.getShip().getName());
 		shipDataPanel.add(shipName);
 		
 		shipDataPanel.add(new JLabel("Ship`s country:"));
