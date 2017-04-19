@@ -13,81 +13,96 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import DataPackage.Pier;
+import DataPackage.Stock;
 
 public class PierPanel extends JPanel {
-		
+
 	Pier pier;
 	JLabel shipName;
 	JLabel shipCountry;
 	JLabel shipCount;
 	JLabel shipWeight;
+	StockTable stock_table;
 	AbstractTableModel tModel;
-	
-	public PierPanel(Pier pier){
-		
+
+	public PierPanel(Pier pier) {
+
 		this.pier = pier;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(Box.createRigidArea(new Dimension(0, 10)));
-						
+
 		JPanel shipDataPanel = new JPanel();
 		GridLayout grid = new GridLayout(0, 2);
 		grid.setHgap(20);
 		grid.setVgap(5);
 		shipDataPanel.setLayout(grid);
-		
+
 		shipDataPanel.add(new JLabel("Ship`s name:"));
 		shipName = new JLabel(pier.getShip().getName());
 		shipDataPanel.add(shipName);
-		
+
 		shipDataPanel.add(new JLabel("Ship`s country:"));
 		shipCountry = new JLabel(pier.getShip().getCountry());
 		shipDataPanel.add(shipCountry);
-		
+
 		shipDataPanel.add(new JLabel("Ship`s goods count:"));
 		shipCount = new JLabel(String.valueOf(this.pier.getShip().getGoods().size()));
 		shipDataPanel.add(shipCount);
-		
+
 		shipDataPanel.add(new JLabel("Ship`s goods max weight:"));
 		shipWeight = new JLabel(String.valueOf(pier.getShip().getMaxWeight()));
 		shipDataPanel.add(shipWeight);
 		this.add(shipDataPanel);
-		
-		tModel = new StockTable(this.pier.getShip().getGoods());
+
+		stock_table = new StockTable(this.pier.getShip().getGoods());
+		tModel = stock_table;
 		JTable stockTable = new JTable(tModel);
 		stockTable.setPreferredScrollableViewportSize(new Dimension(300, 200));
 		stockTable.getTableHeader().setReorderingAllowed(false);
 		JScrollPane stockScroll = new JScrollPane(stockTable);
 		this.add(stockScroll);
-		
+
 		this.add(Box.createRigidArea(new Dimension(0, 5)));
-		
+
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 		buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-		
+
 		JButton loadShip = new JButton("Load ship");
 		JButton unloadShip = new JButton("Unload ship");
-		
+
 		buttonPanel.add(loadShip);
 		buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 		buttonPanel.add(unloadShip);
-	
-			
-		this.add(Box.createRigidArea(new Dimension(0, 10)));				
+
+		this.add(Box.createRigidArea(new Dimension(0, 10)));
+	}
+
+	public void updatePanel() {
+		if (this.pier.getShip() != null) {
+			shipName.setText(this.pier.getShip().getName());
+			shipCountry.setText(this.pier.getShip().getCountry());
+			shipCount.setText(String.valueOf(this.pier.getShip().getGoods().size()));
+			shipWeight.setText(String.valueOf(this.pier.getShip().getMaxWeight()));
+			stock_table.setStock(this.pier.getShip().getGoods());
+		}
+	}
+
+	public void resetPanel(){
+		if(this.pier.getShip() != null) {
+			shipName.setText("No name");
+			shipCountry.setText("No country");
+			shipCount.setText("0");
+			shipWeight.setText("0");
+			stock_table.setStock(this.pier.getShip().getGoods());
+		}
 	}
 	
-	public void updatePanel(){
-		shipName.setText(this.pier.getShip().getName());
-		shipCountry.setText(this.pier.getShip().getCountry());
-		shipCount.setText(String.valueOf(this.pier.getShip().getGoods().size()));
-		shipWeight.setText(String.valueOf(this.pier.getShip().getMaxWeight()));
-	}
-	
-	public void updateTable(){
+	public void updateTable() {
 		tModel.fireTableDataChanged();
 	}
-	
-	public JPanel setPanel(){
+
+	public JPanel setPanel() {
 		return this;
 	}
 

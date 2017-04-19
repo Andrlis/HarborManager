@@ -8,8 +8,8 @@ import java.util.Date;
 public class Harbor {
 
 	private Pier[] piers;
-	private Stock stock;
-	private ArrayList<Ship> shipQueue;
+	private volatile Stock stock;
+	private volatile ArrayList<Ship> shipQueue;
 
 	public Harbor(int numPiers) {
 		piers = new Pier[numPiers];
@@ -49,6 +49,37 @@ public class Harbor {
 	}
 	
 	/**
+	 * Извлекает корабль из очереди.
+	 */
+	synchronized public Ship getShipFromQueue(){
+		if (this.getShipQueue().isEmpty() == true) {
+			return null;
+		} else {
+			Ship ship = this.getShipQueue().get(0);
+			this.getShipQueue().remove(0);
+			System.out.println("SHIP: " + ship.getName());
+			return ship;
+		}
+	}
+	
+	/**
+	 * Разгрузка корабля
+	 */
+	synchronized public void unloadShip(ProductItem item){
+		boolean isExist = false;
+		
+		System.out.println("ITEM: " + item.getName());
+		for (int i=0;i<stock.getGoods().size();i++) {
+			if (item.getName().equals(stock.getGoods().get(i).getName())) {
+				isExist = true;
+				stock.getGoods().get(i).incCount(item.getCount());
+			}
+		}
+		if (isExist == false)
+			this.setGoodsItem(item);
+	}
+	
+	/**
 	 * Вывод информации о состоянии порта в строуку.
 	 */
 	public String toString(){
@@ -65,19 +96,19 @@ public class Harbor {
 	 * Запуск потоков на выполнение
 	 */
 	public void startThreads(){
-		for (Pier pier: piers)
-			pier.start();
+		for (int i =0; i<piers.length;i++)
+			piers[i].start();
 	}
 	
 	/**
 	 * Завершение работы потоков
 	 */
 	public void finishThreds(){
-		for(Pier thread: piers)
-			thread.interrupt();
-		for (Pier thread: piers){
+		for (int i =0; i<piers.length;i++)
+			piers[i].interrupt();
+		for (int i =0; i<piers.length;i++){
 			try{
-				thread.join();
+				piers[i].join();
 			}catch(InterruptedException e){	}
 		}
 	}

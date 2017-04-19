@@ -10,6 +10,10 @@ public class StockTable extends AbstractTableModel {
 	
 	ArrayList<ProductItem> stock;
 	
+	public void setStock(ArrayList<ProductItem> stock){
+		this.stock = stock;
+	}
+	
 	StockTable(ArrayList<ProductItem> stock){
 		super();
 		this.stock = stock;

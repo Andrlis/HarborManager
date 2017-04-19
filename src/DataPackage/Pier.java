@@ -1,7 +1,8 @@
 package DataPackage;
 
-import ui_package.PierPanel;
+import java.util.Iterator;
 
+import ui_package.PierPanel;
 
 public class Pier extends Thread {
 
@@ -16,11 +17,11 @@ public class Pier extends Thread {
 		this.harbor = harbor;
 		this.ui_panel = new PierPanel(this);
 	}
-	
+
 	/**
 	 * Возвращает PierPanel
 	 */
-	public PierPanel getPanel(){
+	public PierPanel getPanel() {
 		return this.ui_panel;
 	}
 
@@ -39,67 +40,73 @@ public class Pier extends Thread {
 	}
 
 	/**
-	 * Извлекает корабль из очереди.
+	 * Получает корабль из очереди.
 	 */
-	synchronized private void setShip() {
-		if (this.harbor.getShipQueue().isEmpty() == true) {
-			this.currentShip = null;
-		}
-		this.currentShip = this.harbor.getShipQueue().get(0);
-		harbor.getShipQueue().remove(0);
-		this.ui_panel.updatePanel();
+	private void setShip() {
+		this.currentShip = this.harbor.getShipFromQueue();
 	}
 
 	/**
 	 * Разгрузка корабля.
 	 */
-	synchronized public void unloadShip() {
-		boolean isExist;
-		for (ProductItem shipItem : this.currentShip.getGoods()) {
-			isExist = false;
-			for (ProductItem stockItem : this.harbor.getStock()) {
-				if (shipItem.getName().equals(stockItem.getName())) {
-					isExist = true;
-					stockItem.incCount(shipItem.getCount());
-				}
-			}
-			if (isExist == false)
-				this.harbor.setGoodsItem(shipItem);
-			this.currentShip.getGoods().remove(shipItem);
+	public void unloadShip() {
+		ProductItem curItem;
+		
+		while(currentShip.getGoods().isEmpty()==false) {
+
+			curItem = currentShip.getGoods().get(0);
+			this.harbor.unloadShip(curItem);
+			this.currentShip.getGoods().remove(0);
 			
 			this.ui_panel.updateTable();
-			
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(10000);
 			} catch (InterruptedException e) {
 				return;
 			}
 		}
+		//this.currentShip.getGoods().clear();
+		this.ui_panel.updateTable();
 	}
 
 	/**
 	 * Вывод информации о порте в строку.
 	 */
 	public String toString() {
-		return this.status + " " + this.currentShip.toString();
+		if (this.currentShip != null)
+			return this.status + " " + this.currentShip.toString();
+		else
+			return this.status + " No ship.";
 	}
 
 	@Override
 	public void run() {
 		while (!isInterrupted()) {
 			setShip();
-			if (this.currentShip == null)
+			this.ui_panel.updatePanel();
+
+			if (this.currentShip == null) {
+				ui_panel.resetPanel();
 				continue;
-
-			if (isInterrupted())
-				break;
-
-			unloadShip();
+			}
 
 			if (isInterrupted())
 				return;
 
+			if (this.currentShip != null) {
+				unloadShip();
+				this.ui_panel.updatePanel();
+			}
+
+			if (isInterrupted())
+				return;
+
+			// try{
+			// sleep(2000);
+			// }catch(InterruptedException e){}
+
 			currentShip = null;
+
 		}
 	}
 

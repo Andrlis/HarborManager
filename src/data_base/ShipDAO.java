@@ -55,7 +55,7 @@ public class ShipDAO implements AllDAO<Ship> {
 
 	@Override
 	public ArrayList<Ship> select() {
-		ArrayList<Ship> shipList = new ArrayList<Ship>();
+		ArrayList<Ship> shipList = new ArrayList<Ship>(1);
 		try {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM harbormanager.ships");

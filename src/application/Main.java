@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import DataPackage.Harbor;
 import MyThreads.StatusThread;
 import data_base.StockDAO;
+import logic.HarborLogic;
 
 import org.apache.log4j.Logger;
 
@@ -17,17 +18,19 @@ public class Main {
 
 		logger.info("Start program");
 		
-		StockDAO stockDAO = new StockDAO();
-		stockDAO.getConnection();
-		Harbor harbor = new Harbor(4);
-		harbor.setStock(stockDAO.select());
+		HarborLogic harborLogic = new HarborLogic(4);
 		
-		statusTh = new StatusThread(harbor);
+		statusTh = new StatusThread(harborLogic.getHarbor());
 		statusTh.start();
+		
+		harborLogic.loadShipQueue();
+		
+		harborLogic.start();
 
-		JFrame mainWindow = new MainWindow(harbor);
+		JFrame mainWindow = new MainWindow(harborLogic);
 
 		mainWindow.setVisible(true);
-		stockDAO.closeConnection();
+		
+		//harborLogic.finish();
 	}
 }

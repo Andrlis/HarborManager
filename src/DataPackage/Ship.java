@@ -8,7 +8,7 @@ public class Ship {
 	private String name;
 	private String country;
 	private double maxWeight;
-	private ArrayList<ProductItem> goods = new ArrayList<ProductItem>();
+	private ArrayList<ProductItem> goods = new ArrayList<ProductItem>(1);
 
 	public Ship(String name, String country, ArrayList<ProductItem> goods, double weight) {
 		this.name = name;
