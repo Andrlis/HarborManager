@@ -4,21 +4,28 @@ import java.awt.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 
-import DataPackage.Harbor;
 import logic.HarborLogic;
 
 import org.apache.log4j.Logger;
 
+import DataPackage.Ship;
+
 public class MainWindow extends JFrame {
+	
+	HarborLogic hLogic;
+	private ShipsWindow shipsWindow;
 	
 	public static final Logger logger = Logger.getLogger(MainWindow.class);
 	
 	public MainWindow(HarborLogic harborLogic) {
 		super("HarborManager");
+		hLogic = harborLogic;
+		shipsWindow = new ShipsWindow(hLogic.getHarbor().getShipQueue());
 
 		setSize(800, 400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -26,6 +33,16 @@ public class MainWindow extends JFrame {
 		setIconImage(icon.getImage());
 		
 		logger.info("Main window open.");
+		
+		/*
+		 * Menu.
+		 */
+		JMenuBar menuBar = new JMenuBar();
+		JMenu shipsMenu = new JMenu("Ships");
+		JMenuItem shipsQueueMenu = new JMenuItem("Show queue");
+		shipsMenu.add(shipsQueueMenu);
+		shipsMenu.getAccessibleContext().setAccessibleDescription("Ships queue.");
+		menuBar.add(shipsMenu);
 		
 		/*
 		 * Main horizontal content box.
@@ -92,6 +109,7 @@ public class MainWindow extends JFrame {
 		contentPanel.add(stockPanel);
 		contentPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 		
+		setJMenuBar(menuBar);
 		setContentPane(contentPanel);
 		
 		stockRefresh.addActionListener(new ActionListener() {
@@ -100,6 +118,11 @@ public class MainWindow extends JFrame {
             	tModel.fireTableDataChanged();
             }
         });
+		
+		shipsQueueMenu.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				shipsWindow.setVisible(true);
+			}
+		});
 	}
-
 }

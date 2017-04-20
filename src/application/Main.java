@@ -25,9 +25,9 @@ public class Main {
 		
 		harborLogic.loadShipQueue();
 		
-		harborLogic.start();
-
 		JFrame mainWindow = new MainWindow(harborLogic);
+		
+		harborLogic.start();
 
 		mainWindow.setVisible(true);
 		

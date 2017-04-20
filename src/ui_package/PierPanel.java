@@ -64,20 +64,16 @@ public class PierPanel extends JPanel {
 
 		this.add(Box.createRigidArea(new Dimension(0, 5)));
 
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-		buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-
 		JButton loadShip = new JButton("Load ship");
-		JButton unloadShip = new JButton("Unload ship");
 
-		buttonPanel.add(loadShip);
-		buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-		buttonPanel.add(unloadShip);
-
+		this.add(Box.createRigidArea(new Dimension(0, 10)));
+		this.add(loadShip);
 		this.add(Box.createRigidArea(new Dimension(0, 10)));
 	}
 
+	/**
+	 * Обновление панели
+	 */
 	public void updatePanel() {
 		if (this.pier.getShip() != null) {
 			shipName.setText(this.pier.getShip().getName());
@@ -88,16 +84,19 @@ public class PierPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Сброс таблицы в исходное состояние.
+	 */
 	public void resetPanel(){
-		if(this.pier.getShip() != null) {
 			shipName.setText("No name");
 			shipCountry.setText("No country");
 			shipCount.setText("0");
 			shipWeight.setText("0");
-			stock_table.setStock(this.pier.getShip().getGoods());
-		}
 	}
 	
+	/**
+	 * Обновление таблицы с товаром
+	 */
 	public void updateTable() {
 		tModel.fireTableDataChanged();
 	}

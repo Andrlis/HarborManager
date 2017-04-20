@@ -4,29 +4,29 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-import DataPackage.ProductItem;
+import DataPackage.Ship;
 
-public class StockTable extends AbstractTableModel {
+public class ShipTable extends AbstractTableModel {
 	
-	ArrayList<ProductItem> stock;
+	ArrayList<Ship> ships;
 	
-	public void setStock(ArrayList<ProductItem> stock){
-		this.stock = stock;
+	public void setStock(ArrayList<Ship> ships){
+		this.ships = ships;
 	}
 	
-	StockTable(ArrayList<ProductItem> stock){
+	ShipTable(ArrayList<Ship> ships){
 		super();
-		this.stock = stock;
+		this.ships = ships;
 	}
 	
 	@Override
 	public int getRowCount(){
-		return stock.size();
+		return ships.size();
 	}
 	
 	@Override
 	public int getColumnCount(){
-		return 3;
+		return 2;
 	}
 	
 	@Override 
@@ -37,10 +37,7 @@ public class StockTable extends AbstractTableModel {
 			result = "Name";
 			break;
 		case 1: 
-			result = "Weight";
-			break;
-		case 2:
-			result = "Count";
+			result = "Country";
 			break;
 		}
 		return result;
@@ -50,12 +47,10 @@ public class StockTable extends AbstractTableModel {
 	public Object getValueAt(int row, int column){
 		switch(column){
 		case 0:
-			return stock.get(row).getName();
+			return ships.get(row).getName();
 		case 1:
-			return stock.get(row).getWeight();
-		case 2: 
-			return stock.get(row).getCount();
-			default:
+			return ships.get(row).getCountry();
+		default:
 				return "";
 		}
 	}

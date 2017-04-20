@@ -51,13 +51,13 @@ public class Pier extends Thread {
 	 */
 	public void unloadShip() {
 		ProductItem curItem;
-		
-		while(currentShip.getGoods().isEmpty()==false) {
+
+		while (currentShip.getGoods().isEmpty() == false) {
 
 			curItem = currentShip.getGoods().get(0);
 			this.harbor.unloadShip(curItem);
 			this.currentShip.getGoods().remove(0);
-			
+
 			this.ui_panel.updateTable();
 			try {
 				Thread.sleep(10000);
@@ -65,8 +65,6 @@ public class Pier extends Thread {
 				return;
 			}
 		}
-		//this.currentShip.getGoods().clear();
-		this.ui_panel.updateTable();
 	}
 
 	/**
