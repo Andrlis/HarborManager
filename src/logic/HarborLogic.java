@@ -21,21 +21,7 @@ public class HarborLogic {
 		harbor = new Harbor(numOfPorts);
 		this.harbor.setStock(stock_dao.select());
 	}
-	
-	/**
-	 * Search stock item by name.
-	 */
-	public ProductItem findItem(String name){
-		ProductItem item = null;
-		for (ProductItem stockItem: harbor.getStock()){
-			if(stockItem.getName().equals(name)==true){
-				item = stockItem;
-				break;
-			}
-		}
-		return item;
-	}
-	
+		
 	/**
 	 * Load ship queue from data base
 	 */

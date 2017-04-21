@@ -2,32 +2,40 @@ package ui_package;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
+import DataPackage.Harbor;
 import DataPackage.Pier;
 import DataPackage.Stock;
+import logic.HarborLogic;
 
 public class PierPanel extends JPanel {
 
 	Pier pier;
+	JButton loadShip;
 	JLabel shipName;
 	JLabel shipCountry;
 	JLabel shipCount;
 	JLabel shipWeight;
 	StockTable stock_table;
 	AbstractTableModel tModel;
+	LoadShipWindow loadWindow;
 
-	public PierPanel(Pier pier) {
-
+	public PierPanel(Pier pier, Harbor harbor) {
 		this.pier = pier;
+		
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.add(Box.createRigidArea(new Dimension(0, 10)));
 
@@ -57,18 +65,32 @@ public class PierPanel extends JPanel {
 		stock_table = new StockTable(this.pier.getShip().getGoods());
 		tModel = stock_table;
 		JTable stockTable = new JTable(tModel);
-		stockTable.setPreferredScrollableViewportSize(new Dimension(300, 200));
+		stockTable.setPreferredScrollableViewportSize(new Dimension(300, 100));
 		stockTable.getTableHeader().setReorderingAllowed(false);
 		JScrollPane stockScroll = new JScrollPane(stockTable);
 		this.add(stockScroll);
 
 		this.add(Box.createRigidArea(new Dimension(0, 5)));
 
-		JButton loadShip = new JButton("Load ship");
-
+		loadShip = new JButton("Load ship");
+		loadShip.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		this.add(Box.createRigidArea(new Dimension(0, 10)));
 		this.add(loadShip);
 		this.add(Box.createRigidArea(new Dimension(0, 10)));
+
+		loadShip.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				  SwingUtilities.invokeLater(new Runnable() {
+			            @Override
+			            public void run() {
+			                new LoadShipWindow(harbor, pier);
+			                pier.pause();
+			            }
+			        });
+			}
+		});
 	}
 
 	/**
@@ -87,13 +109,13 @@ public class PierPanel extends JPanel {
 	/**
 	 * —брос таблицы в исходное состо€ние.
 	 */
-	public void resetPanel(){
-			shipName.setText("No name");
-			shipCountry.setText("No country");
-			shipCount.setText("0");
-			shipWeight.setText("0");
+	public void resetPanel() {
+		shipName.setText("No name");
+		shipCountry.setText("No country");
+		shipCount.setText("0");
+		shipWeight.setText("0");
 	}
-	
+
 	/**
 	 * ќбновление таблицы с товаром
 	 */

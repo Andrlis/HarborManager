@@ -2,6 +2,7 @@ package DataPackage;
 
 import java.util.Iterator;
 
+import logic.HarborLogic;
 import ui_package.PierPanel;
 
 public class Pier extends Thread {
@@ -11,11 +12,13 @@ public class Pier extends Thread {
 	private Ship currentShip;
 	private Harbor harbor;
 
+	public volatile boolean play = true;
+
 	public Pier(Harbor harbor) {
 		this.status = "Free";
 		this.currentShip = new Ship();
 		this.harbor = harbor;
-		this.ui_panel = new PierPanel(this);
+		this.ui_panel = new PierPanel(this, harbor);
 	}
 
 	/**
@@ -77,6 +80,26 @@ public class Pier extends Thread {
 			return this.status + " No ship.";
 	}
 
+	public synchronized void play() {
+		play = true;
+		notify();
+	}
+
+	public void pause() {
+		play = false;
+	}
+
+	private synchronized void checkPause() {
+		while (!play) {
+			try {
+				wait();
+			} catch (InterruptedException ex) {
+				interrupt();
+				play = true;
+			}
+		}
+	}
+
 	@Override
 	public void run() {
 		while (!isInterrupted()) {
@@ -96,6 +119,8 @@ public class Pier extends Thread {
 				this.ui_panel.updatePanel();
 			}
 
+			checkPause();
+			
 			if (isInterrupted())
 				return;
 

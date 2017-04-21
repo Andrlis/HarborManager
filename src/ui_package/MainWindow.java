@@ -85,7 +85,7 @@ public class MainWindow extends JFrame {
 		JPanel stockPanel = new JPanel();
 		stockPanel.setLayout(new BoxLayout(stockPanel,BoxLayout.Y_AXIS));
 				
-		stockPanel.add(new JLabel("Stock:"));
+		stockPanel.add(new JLabel("Stock:"),JComponent.LEFT_ALIGNMENT);
 		
 		AbstractTableModel tModel = new StockTable(harborLogic.getHarbor().getStock());
 		JTable stockTable = new JTable(tModel);
@@ -97,6 +97,7 @@ public class MainWindow extends JFrame {
 		stockPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		
 		JButton stockRefresh = new JButton("Refresh Stock");
+		stockRefresh.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		stockPanel.add(stockRefresh);
 		stockPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		

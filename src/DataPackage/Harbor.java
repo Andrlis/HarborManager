@@ -5,13 +5,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import logic.HarborLogic;
+
 public class Harbor {
 
+	private HarborLogic hLogic;
 	private Pier[] piers;
 	private volatile Stock stock;
 	private volatile ArrayList<Ship> shipQueue;
 
 	public Harbor(int numPiers) {
+		//hLogic = logic;
 		piers = new Pier[numPiers];
 		for (int i= 0; i<numPiers;i++){
 			piers[i]= new Pier(this);
@@ -98,6 +102,20 @@ public class Harbor {
 	public void startThreads(){
 		for (int i =0; i<piers.length;i++)
 			piers[i].start();
+	}
+	
+	/**
+	 * Search stock item by name.
+	 */
+	public ProductItem findItem(String name){
+		ProductItem item = null;
+		for (ProductItem stockItem: stock.getGoods()){
+			if(stockItem.getName().equals(name)==true){
+				item = stockItem;
+				break;
+			}
+		}
+		return item;
 	}
 	
 	/**
