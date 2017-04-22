@@ -13,15 +13,16 @@ public class Harbor {
 	private Pier[] piers;
 	private volatile Stock stock;
 	private volatile ArrayList<Ship> shipQueue;
+	private volatile ArrayList<Ship> ocean;
 
 	public Harbor(int numPiers) {
-		//hLogic = logic;
 		piers = new Pier[numPiers];
 		for (int i= 0; i<numPiers;i++){
 			piers[i]= new Pier(this);
 		}
 		stock = new Stock();
 		shipQueue = new ArrayList<Ship>();
+		ocean = new ArrayList<Ship>();
 	}
 
 	public Pier getPier(int number){
@@ -30,6 +31,10 @@ public class Harbor {
 	
 	public ArrayList<Ship> getShipQueue(){
 		return shipQueue;
+	}
+	
+	public ArrayList<Ship> getOcean(){
+		return ocean;
 	}
 	
 	public ArrayList<ProductItem> getStock() {
@@ -61,8 +66,16 @@ public class Harbor {
 		} else {
 			Ship ship = this.getShipQueue().get(0);
 			this.getShipQueue().remove(0);
-			System.out.println("SHIP: " + ship.getName());
 			return ship;
+		}
+	}
+	
+	/**
+	 * Добавление корабля в очередь
+	 */
+	synchronized public void addShipToQueue(Ship ship){
+		if(ship!=null){
+			this.ocean.add(ship);
 		}
 	}
 	
@@ -72,7 +85,6 @@ public class Harbor {
 	synchronized public void unloadShip(ProductItem item){
 		boolean isExist = false;
 		
-		System.out.println("ITEM: " + item.getName());
 		for (int i=0;i<stock.getGoods().size();i++) {
 			if (item.getName().equals(stock.getGoods().get(i).getName())) {
 				isExist = true;
@@ -81,6 +93,29 @@ public class Harbor {
 		}
 		if (isExist == false)
 			this.setGoodsItem(item);
+	}
+	
+	/**
+	 * Загрузка корабля
+	 */
+	synchronized public void loadShip(Ship ship, ArrayList<ProductItem>items){
+		double itemsWeight = 0;
+		
+		for(ProductItem item :items){
+			itemsWeight += item.getWeight()*item.getCount();
+			if(itemsWeight<ship.getMaxWeight()){
+				ship.setGoodsItem(item);
+			}
+			/*Если перегруз, то возвращаем товар на склад*/
+			else{
+				for (int i=0;i<stock.getGoods().size();i++) {
+					if (item.getName().equals(stock.getGoods().get(i).getName())) {
+						stock.getGoods().get(i).incCount(item.getCount());
+						break;
+					}
+				}
+			}
+		}
 	}
 	
 	/**

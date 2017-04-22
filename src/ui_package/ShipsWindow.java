@@ -11,6 +11,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -47,6 +48,7 @@ public class ShipsWindow extends JFrame {
 		contentPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
 		JButton refresh = new JButton("Refresh");
+	    refresh.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 		contentPanel.add(refresh);
 		contentPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 

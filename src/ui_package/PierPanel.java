@@ -62,10 +62,12 @@ public class PierPanel extends JPanel {
 		shipDataPanel.add(shipWeight);
 		this.add(shipDataPanel);
 
+		this.add(Box.createRigidArea(new Dimension(0, 10)));
+		
 		stock_table = new StockTable(this.pier.getShip().getGoods());
 		tModel = stock_table;
 		JTable stockTable = new JTable(tModel);
-		stockTable.setPreferredScrollableViewportSize(new Dimension(300, 100));
+		stockTable.setPreferredScrollableViewportSize(new Dimension(300, 120));
 		stockTable.getTableHeader().setReorderingAllowed(false);
 		JScrollPane stockScroll = new JScrollPane(stockTable);
 		this.add(stockScroll);

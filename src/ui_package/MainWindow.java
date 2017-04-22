@@ -19,6 +19,7 @@ public class MainWindow extends JFrame {
 	
 	HarborLogic hLogic;
 	private ShipsWindow shipsWindow;
+	private ShipsWindow oceanWinow;
 	
 	public static final Logger logger = Logger.getLogger(MainWindow.class);
 	
@@ -26,7 +27,8 @@ public class MainWindow extends JFrame {
 		super("HarborManager");
 		hLogic = harborLogic;
 		shipsWindow = new ShipsWindow(hLogic.getHarbor().getShipQueue());
-
+		oceanWinow = new ShipsWindow(hLogic.getHarbor().getOcean());
+		
 		setSize(800, 400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ImageIcon icon = new ImageIcon("anchor.PNG");
@@ -39,8 +41,13 @@ public class MainWindow extends JFrame {
 		 */
 		JMenuBar menuBar = new JMenuBar();
 		JMenu shipsMenu = new JMenu("Ships");
+		
 		JMenuItem shipsQueueMenu = new JMenuItem("Show queue");
 		shipsMenu.add(shipsQueueMenu);
+		
+		JMenuItem oceanMenu = new JMenuItem("Ocean queue");
+		shipsMenu.add(oceanMenu);
+		
 		shipsMenu.getAccessibleContext().setAccessibleDescription("Ships queue.");
 		menuBar.add(shipsMenu);
 		
@@ -121,8 +128,16 @@ public class MainWindow extends JFrame {
         });
 		
 		shipsQueueMenu.addActionListener(new ActionListener(){
+			@Override
 			public void actionPerformed(ActionEvent e){
 				shipsWindow.setVisible(true);
+			}
+		});
+		
+		oceanMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				oceanWinow.setVisible(true);
 			}
 		});
 	}

@@ -1,5 +1,6 @@
 package DataPackage;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import logic.HarborLogic;
@@ -11,6 +12,8 @@ public class Pier extends Thread {
 	private String status;
 	private Ship currentShip;
 	private Harbor harbor;
+	
+	private ArrayList<ProductItem> itemsForLoading = new ArrayList<ProductItem>();
 
 	public volatile boolean play = true;
 
@@ -28,6 +31,13 @@ public class Pier extends Thread {
 		return this.ui_panel;
 	}
 
+	/**
+	 * Формирование списка товаров для погрузки
+	 */
+	public ArrayList<ProductItem> getListOfLoadedItems(){
+		return itemsForLoading;
+	}
+	
 	/**
 	 * Изменение состояния порта.
 	 */
@@ -80,15 +90,24 @@ public class Pier extends Thread {
 			return this.status + " No ship.";
 	}
 
+	/**
+	 * Продолжить работу потока.
+	 */
 	public synchronized void play() {
 		play = true;
 		notify();
 	}
 
+	/**
+	 * Приостановить поток.
+	 */
 	public void pause() {
 		play = false;
 	}
 
+	/**
+	 * Проверка, нужна ли остановка.
+	 */
 	private synchronized void checkPause() {
 		while (!play) {
 			try {
@@ -120,14 +139,23 @@ public class Pier extends Thread {
 			}
 
 			checkPause();
-			
+			if (isInterrupted())
+				return;
+			harbor.loadShip(currentShip, itemsForLoading);
+
 			if (isInterrupted())
 				return;
 
-			// try{
-			// sleep(2000);
-			// }catch(InterruptedException e){}
+			try {
+				sleep(2000);
+			} catch (InterruptedException e) {}
 
+			if (isInterrupted())
+				return;
+			
+			if(currentShip!=null)
+				this.harbor.addShipToQueue(currentShip);
+			
 			currentShip = null;
 
 		}

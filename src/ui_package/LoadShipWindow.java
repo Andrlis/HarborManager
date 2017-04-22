@@ -122,7 +122,7 @@ public class LoadShipWindow extends JFrame {
 		loadBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//TO-DO loading ship method
+				pier.getListOfLoadedItems().addAll(loadingItems);
 				pier.play();
 				setVisible(false);
 			}
